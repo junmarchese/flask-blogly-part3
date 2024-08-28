@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ tag.name }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ tag.name }}</h1>
+
+<ul>
+    {% for post in tag.posts %}
+    <li>
+        <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('edit_tag', tag_id=tag.id) }}" class="btn btn-secondary">Edit</a>
+<form action="{{ url_for('delete_tag', tag_id=tag.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+{% endblock %}
+
+<!-- <div class="form-group">
+    {% for post in posts %}
+    <div>
+        <input type="checkbox" class="form-check-input" id="post_{{ post.id }}" name="posts" value="{{ post.id }}" {% if post in tag.posts %}checked{% endif %}>
+        <label class="form-check-label" for="post_{{ post.id }}">{{ post.title }}</label>
+    </div>
+    {% endfor %}
+</div> -->

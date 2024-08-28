@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ user.first_name }} {{ user.last_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- User Detail Card -->
+    <div class="card">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- User Image -->
+                <img src="{{ user.image_url }}" class="card-img" alt="{{ user.first_name }} {{ user.last_name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <!-- User Name -->
+                    <h1 class="card-title"> {{ user.first_name }} {{ user.last_name }}</h1>
+                    <!-- Edit and Delete Buttons -->
+                    <div class="btn-group" role="group">
+                        <a href="/users/{{ user.id }}/edit" class="btn btn-primary">Edit</a>
+                        <form action="/users/{{ user.id }}/delete" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    <h2>Posts</h2>
+                    <ul>
+                        {% for post in user.posts %}
+                        <li>
+                            <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ url_for('add_post', user_id=user.id) }}" class="btn btn-primary">Add Post</a>  
+                </div>    
+            </div>
+        </div>
+    </div>    
+</div>
+{% endblock %}

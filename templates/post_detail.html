@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+
+<p> {{ post.content }}</p>
+<p>By {{ post.user.first_name }} {{ post.user.last_name }} on {{ post.created_at.strftime('%a %b %-d %Y, %-I:%M %p') }}</p>
+
+{% if post.tags %}
+<ul>
+    <b>Tags:</b>
+    {% for tag in post.tags %}
+    <li>
+        <a href="{{ url_for('showDetail_tag', tag_id=tag.id) }}"><span class="badge badge-primary">{{ tag.name }}</span></a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+    
+<form action="{{ url_for('show_user', user_id=post.user_id) }}" method="GET" style="display:inline;">
+    <button type="submit" class="btn btn-secondary">Cancel</button>
+</form>
+<form action="{{ url_for('edit_post', post_id=post.id) }}" method="GET" style="display:inline;">
+    <button type="submit" class="btn btn-secondary">Edit</button>
+</form>
+<form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+{% endblock %}
